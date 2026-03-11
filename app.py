@@ -186,7 +186,7 @@ with get_db_connect(init_mode = True) as conn:
 
     app.config['JSON_AS_ASCII'] = False
     app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
-    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3600
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 4233600
     if run_mode == 'dev':
         app.config['TEMPLATES_AUTO_RELOAD'] = True
         app.config['DEBUG'] = True
@@ -752,8 +752,10 @@ app.route('/move/<everything:name>', methods = ['POST', 'GET'])(edit_move)
 app.route('/move_all')(edit_move_all)
 
 # Func-topic
-app.route('/topic/<everything:name>', methods = ['POST', 'GET'])(topic_list)
-app.route('/topic_page/<int:page>/<everything:name>', methods = ['POST', 'GET'])(topic_list)
+app.route('/topic/<everything:name>')(golang_view())
+app.route('/topic_page/<int:page>/<everything:name>')(golang_view())
+app.route('/topic_close/<int:page>/<everything:name>')(golang_view())
+app.route('/topic_agree/<int:page>/<everything:name>')(golang_view())
 
 app.route('/thread/<int:topic_num>', methods = ['POST', 'GET'])(topic)
 app.route('/thread/0/<everything:doc_name>', defaults = { 'topic_num' : '0' }, methods = ['POST', 'GET'])(topic)
