@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: perfect-wiki
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt -r requirements-optional.txt
+    startCommand: python app.py
+    envVars:
+      - key: NAMU_DB_TYPE
+        value: sqlite
+      - key: NAMU_DB
+        value: perfect_wiki
+      - key: NAMU_HOST
+        value: 0.0.0.0
+      - key: NAMU_PORT
+        value: 3000
+      - key: NAMU_GOLANGPORT
+        value: 3001
+      - key: NAMU_LANG
+        value: ko-KR
+      - key: NAMU_MARKUP
+        value: namumark
+      - key: NAMU_ENCRYPT
+        value: sha3
+    disk:
+      - name: wiki-data
+        mountPath: /app/data
+        sizeGB: 1
+    autoDeploy: true
+    repo: https://github.com/12345yjp/perfect-wiki
