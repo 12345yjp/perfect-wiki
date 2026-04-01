@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  opennamu:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NAMU_DB_TYPE=mysql
+      - NAMU_DB=perfect_wiki
+      - NAMU_DB_HOST=db
+      - NAMU_DB_PORT=3306
+      - NAMU_DB_USER=postgres
+      - NAMU_DB_PASSWORD=${DB_PASSWORD}
+      - NAMU_HOST=0.0.0.0
+      - NAMU_PORT=3000
+      - NAMU_GOLANGPORT=3001
+      - NAMU_LANG=ko-KR
+      - NAMU_MARKUP=namumark
+      - NAMU_ENCRYPT=sha3
+      - NAMU_DOCKER=O
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=perfect_wiki
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
